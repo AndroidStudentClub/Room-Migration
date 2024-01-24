@@ -49,8 +49,7 @@ class MigrationTest {
         val db = migrationTestHelper.runMigrationsAndValidate(
             DB_NAME,
             2,
-            true,
-            MIGRATION_1_2
+            true
         )
 
         // Проверяем, что все отработало корректно
