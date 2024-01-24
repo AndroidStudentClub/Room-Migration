@@ -1,11 +1,11 @@
 package ru.androidschool.migrations
 
 import androidx.room.testing.MigrationTestHelper
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
+import androidx.test.espresso.core.internal.deps.guava.base.Optional.absent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.natpryce.hamkrest.absent
-import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +21,7 @@ class MigrationTest {
     @get:Rule
     val migrationTestHelper = MigrationTestHelper(
         InstrumentationRegistry.getInstrumentation(),
-        ToDoDatabase::class.java.canonicalName
+        ToDoDatabase::class.java
     )
 
     @Test
@@ -37,9 +37,9 @@ class MigrationTest {
 
         // Проверяем что созданная задача сохранилась
         initialDb.query("SELECT COUNT(*) FROM tasks").use {
-            assertThat(it.count, equalTo(1))
+            assertEquals(it.count, 1)
             it.moveToFirst()
-            assertThat(it.getInt(0), equalTo(1))
+            assertEquals(it.getInt(0), 1)
         }
 
         // Закрываем БД
@@ -53,18 +53,18 @@ class MigrationTest {
             MIGRATION_1_2
         )
 
-        // Проверяме что все отработало корректно
-        // Поле Date теперь присутсвтует в таблице и должно быть пусто
+        // Проверяем, что все отработало корректно
+        // Поле Date теперь присутствует в таблице и должно быть пусто
         // Номер столбца соответсвует полю сущности в том порядке, в котором описана TaskEntity
         db.query("SELECT id, title, shortDescription, fullDescription, deadline FROM tasks")
             .use {
-                assertThat(it.count, equalTo(1))
+                assertEquals(it.count, 1)
                 it.moveToFirst()
-                assertThat(it.getInt(0), equalTo(TEST_ID))
-                assertThat(it.getString(1), equalTo(TEST_TITLE))
-                assertThat(it.getString(2), equalTo(TEST_SHORT_TEXT))
-                assertThat(it.getString(3), equalTo(TEST_FULL_TEXT))
-                assertThat(it.getString(4), absent())
+                assertEquals(it.getInt(0), TEST_ID)
+                assertEquals(it.getString(1), TEST_TITLE)
+                assertEquals(it.getString(2), TEST_SHORT_TEXT)
+                assertEquals(it.getString(3), TEST_FULL_TEXT)
+                assertEquals(it.getString(4), null)
             }
     }
 }

@@ -3,13 +3,10 @@ package ru.androidschool.migrations
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
-import com.natpryce.hamkrest.hasSize
+import org.junit.Assert.assertEquals
 
 import org.junit.Test
 import org.junit.runner.RunWith
-import com.natpryce.hamkrest.isEmpty
 import java.util.*
 
 @RunWith(AndroidJUnit4::class)
@@ -25,7 +22,7 @@ class TodoDaoTest {
     @Test
     fun insertAndDelete() {
         // Проверяем что вначале таблица пуста
-        assertThat(underTest.loadAll(), isEmpty)
+        assertEquals(underTest.loadAll().size, 0)
 
         // Поставим дедлайн сегодня
         val date = Calendar.getInstance().time
@@ -36,7 +33,7 @@ class TodoDaoTest {
             title = "Купить молоко",
             shortDescription = "Купить молоко 1%",
             fullDescription = "Зайти в магазин по дороге на работу и купить молоко Весёлый молочник",
-            deadline =  date
+            deadline = date
         )
 
         // Вставляем задачу в таблицу
@@ -45,15 +42,15 @@ class TodoDaoTest {
         // Получаем все задачи из БД и проверяем что кол-во задач 1 и
         // эта задача является той же, что мы создали выше
         underTest.loadAll().let {
-            assertThat(it, hasSize(equalTo(1)))
-            assertThat(it[0], equalTo(entity))
+            assertEquals(it.size, 1)
+            assertEquals(it[0], entity)
         }
 
         // Удаляем
         underTest.delete(entity)
 
         // Проверяем что теперь таблица пуста
-        assertThat(underTest.loadAll(), isEmpty)
+        assertEquals(underTest.loadAll().size, 0)
     }
 
     @Test
@@ -73,14 +70,14 @@ class TodoDaoTest {
 
         val updated = entity.copy(
             title = "Добавить код", shortDescription = "Добавить проект на GitHub",
-            fullDescription  = "Создать проект и опубликовать его на GitHub"
+            fullDescription = "Создать проект и опубликовать его на GitHub"
         )
 
         underTest.update(updated)
 
         underTest.loadAll().let {
-            assertThat(it, hasSize(equalTo(1)))
-            assertThat(it[0], equalTo(updated))
+            assertEquals(it.size, 1)
+            assertEquals(it[0], updated)
         }
     }
 }

@@ -16,9 +16,8 @@ abstract class ToDoDatabase : RoomDatabase() {
 
         fun newTestDatabase(context: Context) = Room.inMemoryDatabaseBuilder(
             context,
-            ToDoDatabase::class.java
-        )
-            .addMigrations(MIGRATION_1_2)
+            ToDoDatabase::class.java,
+        ).addMigrations(MIGRATION_1_2)
             .build()
     }
 

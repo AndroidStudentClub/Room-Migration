@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="deploymentTargetDropDown">
+    <value>
+      <entry key="MigrationTest">
+        <State />
+      </entry>
+      <entry key="TodoDaoTest">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="test1To2()">
+        <State />
+      </entry>
+    </value>
+  </component>
+</project>
