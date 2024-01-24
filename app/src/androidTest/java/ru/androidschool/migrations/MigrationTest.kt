@@ -63,7 +63,7 @@ class MigrationTest {
                 assertEquals(it.getString(1), TEST_TITLE)
                 assertEquals(it.getString(2), TEST_SHORT_TEXT)
                 assertEquals(it.getString(3), TEST_FULL_TEXT)
-                assertEquals(it.getString(4), null)
+                assertEquals(it.getString(4), DEFAULT_DATE)
             }
     }
 }
